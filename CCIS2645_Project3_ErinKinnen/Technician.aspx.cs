@@ -18,7 +18,7 @@ namespace CCIS2645_Project3_ErinKinnen
                 txtError.Text = "Is not postback";
                 LoadTechnicians();
                 //btnAdd.Enabled = false;
-                //btnRemove.Enabled = false test test;
+                //btnRemove.Enabled = false;
             }
             else
             {
@@ -223,7 +223,7 @@ namespace CCIS2645_Project3_ErinKinnen
         protected void btnAdd_Click(object sender, EventArgs e)
         {
             Int32 intRetValue;
-            String strHS;
+            //String strHS;
 
             if (FormValidation())
             {
@@ -231,7 +231,7 @@ namespace CCIS2645_Project3_ErinKinnen
                 {
                     intRetValue = clsDatabase.InsertTechnician(txtLastName.Text.Trim(), txtFirstName.Text.Trim(), txtMiddleInitial.Text.Trim(), txtEmail.Text.Trim(), txtDepartment.Text.Trim(), txtPhone.Text.Trim(), txtHourlyRate.Text.Trim());
 
-                    if (intRetValue == 0)
+                    if (intRetValue > 0)
                     {
                         LoadTechnicians();
 

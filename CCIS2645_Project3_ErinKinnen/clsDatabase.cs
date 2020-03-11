@@ -275,6 +275,60 @@ namespace CCIS2645_Project3_ErinKinnen
             }
         }
 
+        public static DataSet GetClientList()
+        {
+            SqlConnection cnSQL;
+            SqlCommand cmdSQL;
+            SqlDataAdapter daSQL;
+            DataSet dsSQL = null;
+            Boolean blnErrorOccurred = false;
+            Int32 intRetCode;
+
+            cnSQL = AcquireConnection();
+            if (cnSQL == null)
+            {
+                return null;
+            }
+            else
+            {
+                cmdSQL = new SqlCommand();
+                cmdSQL.Connection = cnSQL;
+                cmdSQL.CommandType = CommandType.StoredProcedure;
+                cmdSQL.CommandText = "uspGetClientList";
+
+                cmdSQL.Parameters.Add(new SqlParameter("@ErrCode", SqlDbType.Int));
+                cmdSQL.Parameters["@ErrCode"].Direction = ParameterDirection.ReturnValue;
+
+                dsSQL = new DataSet();
+                try
+                {
+                    daSQL = new SqlDataAdapter(cmdSQL);
+                    intRetCode = daSQL.Fill(dsSQL);
+                    daSQL.Dispose();
+                }
+                catch (Exception ex)
+                {
+                    blnErrorOccurred = true;
+                    dsSQL.Dispose();
+                }
+                finally
+                {
+                    cmdSQL.Parameters.Clear();
+                    cmdSQL.Dispose();
+                    cnSQL.Close();
+                    cnSQL.Dispose();
+                }
+            }
+
+            if (blnErrorOccurred)
+            {
+                return null;
+            }
+            else
+            {
+                return dsSQL;
+            }
+        }
         public static Int32 DeleteTechnician (int strTechID)
         {
             SqlConnection cnSQL;
@@ -335,7 +389,7 @@ namespace CCIS2645_Project3_ErinKinnen
             SqlCommand cmdSQL;
             Boolean blnErrorOccurred = false;
             Int32 intRetCode = 0;
-            Int32 newtechIDtest;
+            Int32 newtechID = 0;
 
             cnSQL = AcquireConnection();
             if (cnSQL == null)
@@ -414,7 +468,10 @@ namespace CCIS2645_Project3_ErinKinnen
                 try
                 {
                     intRetCode = cmdSQL.ExecuteNonQuery();
-                    //return NewTechnicianID; //New Tech ID output capture output parameter returned
+                    if (cmdSQL.Parameters["@NewTechnicianID"] != null)
+                    {
+                        newtechID = Convert.ToInt32(cmdSQL.Parameters["@NewTechnicianID"].Value);
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -435,9 +492,94 @@ namespace CCIS2645_Project3_ErinKinnen
             }
             else
             {
-                return 0;
+                return newtechID;
             }
         }
+
+        //public static Int32 InsertServiceEvent(Int32 intClientID, DateTime dtEventDate, String strPhone, String strContact)
+        //{
+        //    SqlConnection cnSQL;
+        //    SqlCommand cmdSQL;
+        //    Boolean blnErrorOccurred = false;
+        //    Int32 intRetCode; //value that we get back
+        //    Int32 intNewTicket = 0; //value that we get back
+
+        //    cnSQL = AcquireConnection();
+        //    if(cnSQL == null)
+        //    {
+        //        blnErrorOccurred = true;
+        //    }
+        //    else
+        //    {
+        //        cmdSQL = new SqlCommand();
+        //        cmdSQL.Connection = cnSQL;
+        //        cmdSQL.CommandType = CommandType.StoredProcedure;
+        //        cmdSQL.CommandText = "uspInsertServiceEvent";
+
+        //        cmdSQL.Parameters.Add(new SqlParameter("@ClientID", SqlDbType.Int));
+        //        cmdSQL.Parameters["@ClientID"].Direction = ParameterDirection.Input;
+        //        cmdSQL.Parameters["@ClientID"].Value = intClientID;
+
+        //        cmdSQL.Parameters.Add(new SqlParameter("@EventDate", SqlDbType.DateTime));
+        //        cmdSQL.Parameters["@EventDate"].Direction = ParameterDirection.Input;
+        //        cmdSQL.Parameters["@EventDate"].Value = dtEventDate;
+
+        //        cmdSQL.Parameters.Add(new SqlParameter("@Phone", SqlDbType.NChar, 10));
+        //        cmdSQL.Parameters["@Phone"].Direction = ParameterDirection.Input;
+        //        cmdSQL.Parameters["@Phone"].Value = strPhone;
+
+        //        cmdSQL.Parameters.Add(new SqlParameter("@Contact", SqlDbType.NChar, 30));
+        //        cmdSQL.Parameters["@Contact"].Direction = ParameterDirection.Input;
+        //        cmdSQL.Parameters["@Contact"].Value = strContact;
+
+        //        cmdSQL.Parameters.Add(new SqlParameter("@NewTicketID", SqlDbType.Int));
+        //        cmdSQL.Parameters["@NewTicketID"].Direction = ParameterDirection.Output;
+
+        //        cmdSQL.Parameters.Add(new SqlParameter("@ErrCode", SqlDbType.Int));
+        //        cmdSQL.Parameters["@ErrCode"].Direction = ParameterDirection.ReturnValue;
+
+        //        try
+        //        {
+        //            intRetCode = cmdSQL.ExecuteNonQuery();
+                    
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            blnErrorOccurred = true;
+        //        }
+        //        finally
+        //        {
+        //            cnSQL.Close();
+        //            cnSQL.Dispose();
+        //        }
+
+        //        if (!blnErrorOccurred)
+        //        {
+        //            try
+        //            {
+        //                if (cmdSQL.Parameters["@NewTicketID"] != null)
+        //                {
+        //                    intNewTicket = Convert.ToInt32(cmdSQL.Parameters["@NewTicketID"].Value);
+        //                }
+        //            }
+        //            catch (Exception ex)
+        //            {
+        //                blnErrorOccurred = true;
+        //            }
+        //        }
+        //        cmdSQL.Parameters.Clear();
+        //        cmdSQL.Dispose();
+
+        //        if (blnErrorOccurred)
+        //        {
+        //            return -1;
+        //        }
+        //        else
+        //        {
+        //            return intNewTicket;
+        //        }
+        //    }
+        //}
 
         public static Int32 UpdateTechnician(int intTechnicianID, string strLname, string strFname, string strMinit, string strEmail, string strDept, string strPhone, string strHRate)
         {
