@@ -66,6 +66,36 @@ namespace CCIS2645_Project3_ErinKinnen
                 dsData.Dispose();
             }
         }
+
+        private Boolean FormValidation()
+        {
+            Boolean blnOk = true;
+            String strMessage = "";
+            txtError.Text = "";
+
+            if(ddlClient.SelectedIndex == 0)
+            {
+                blnOk = false;
+                strMessage += "Please select a Client from the dropdown";
+            }
+
+            if(txtContact.Text.Trim().Length < 1)
+            {
+                blnOk = false;
+                strMessage += " Contact is required.";
+            }
+
+            if(!Int64.TryParse(txtPhone.Text.Trim(), out Int64 result))
+            {
+                blnOk = false;
+                strMessage += "Phone number is required. ";
+            }
+            else if (result.ToString().Length != 10)
+            {
+                blnOk = false;
+                strMessage += "Phone number must be 10 digits.";
+            }
+        }
         protected void ddlClient_SelectedIndexChanged(object sender, EventArgs e)
         {
             //DisplayClient(ddlClient.SelectedValue.ToString());
