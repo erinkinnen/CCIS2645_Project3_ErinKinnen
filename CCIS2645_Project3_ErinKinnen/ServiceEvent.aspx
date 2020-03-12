@@ -9,13 +9,14 @@
 <body>
     <form id="form1" runat="server">
         <div>
-            <asp:Button ID="btnClear" runat="server" style="z-index: 1; left: 200px; top: 214px;  width: 80px; position: absolute; " Text="Clear" OnClientClick="this.form.reset();return false;" />
-            <asp:Button ID="btnSubmit" runat="server" style="z-index: 1; left: 320px; top: 214px; width: 80px; position: absolute" Text="Submit" OnClick="btnSubmit_Click" />
+            <asp:Button ID="btnClear" runat="server" style="z-index: 1; left: 283px; top: 216px;  width: 80px; position: absolute; " Text="Clear" OnClick="btnClear_Click" />
+<%--            <asp:Button ID="Button1" runat="server" style="z-index: 1; left: 283px; top: 216px;  width: 80px; position: absolute; " Text="Clear" OnClientClick="this.form.reset();return false;" />--%>
+            <asp:Button ID="btnSubmit" runat="server" style="z-index: 1; left: 184px; top: 216px; width: 80px; position: absolute" Text="Submit" OnClick="btnSubmit_Click" />
             <asp:Label ID="lblServiceEvent" runat="server" Font-Bold="True" Font-Size="Large" style="z-index: 1; left: 10px; top: 15px; position: absolute; width: 1403px" Text="Service Event"></asp:Label>
             <asp:Label ID="lblEventDate" runat="server" style="z-index: 1; left: 115px; top: 45px; position: absolute" Text="Event Date:"></asp:Label>
             <asp:TextBox ID="txtEventDate" runat="server" OnLoad="Page_Load" style="z-index: 1; left: 200px; top: 45px; width: 175px; position: absolute"></asp:TextBox>
             <asp:Label ID="lblClient" runat="server" style="z-index: 1; left: 115px; top: 75px; position: absolute" Text="*Client:"></asp:Label>
-            <asp:DropDownList ID="ddlClient" runat="server" style="z-index: 1; left: 200px; top: 75px; position: absolute; height: 14px; width: 176px; right: 1049px">
+            <asp:DropDownList ID="ddlClient" runat="server" style="z-index: 1; left: 200px; top: 75px; position: absolute; height: 25px; width: 176px; right: 1049px">
             </asp:DropDownList>
             <asp:Label ID="lblContact" runat="server" style="z-index: 1; left: 115px; top: 105px; position: absolute" Text="*Contact:"></asp:Label>
             <asp:TextBox ID="txtContact" runat="server" style="z-index: 1; left: 200px; top: 105px;  width: 175px; position: absolute"></asp:TextBox>
